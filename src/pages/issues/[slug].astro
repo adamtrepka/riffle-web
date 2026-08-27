@@ -41,28 +41,40 @@ const description = issue.teaser
         {issue.items.map((item) => {
           const primaryUrl = getPrimaryUrl(item)
           return (
-            <li>
-              <div class="item-meta">
-                <span>{String(item.position).padStart(2, '0')}</span>
-                <span>r/{item.subreddit}</span>
-              </div>
-              <h2>
-                <a class="item-title" href={primaryUrl} target="_blank" rel="noreferrer">
-                  {item.title} <span aria-hidden="true">↗</span>
-                </a>
-              </h2>
-              <p class="item-description">{item.description}</p>
-              {item.resourceUrl && item.redditUrl && (
-                <a
-                  class="discussion-link"
-                  href={item.redditUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Discussion for ${item.title} (opens in a new tab)`}
-                >
-                  Discussion <span aria-hidden="true">↗</span>
-                </a>
-              )}
+              <li>
+                <div class="item-meta">
+                  <span>r/{item.subreddit}</span>
+                </div>
+                <h2>
+                  <a class="item-title" href={primaryUrl} target="_blank" rel="noreferrer">
+                    {item.title} <span aria-hidden="true">↗</span>
+                  </a>
+                </h2>
+                <p class="item-description">{item.description}</p>
+                <div class="item-links">
+                  {item.resourceUrl && (
+                    <a
+                      class="item-link"
+                      href={item.resourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Resource for ${item.title} (opens in a new tab)`}
+                    >
+                      resource <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                  {item.redditUrl && (
+                    <a
+                      class="item-link"
+                      href={item.redditUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Discussion for ${item.title} (opens in a new tab)`}
+                    >
+                      discussion <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                </div>
             </li>
           )
         })}
