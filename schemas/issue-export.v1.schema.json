@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "IssueExportResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "teaser": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/IssueExportItem"
+      }
+    }
+  },
+  "definitions": {
+    "IssueExportItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "redditPostId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "redditUrl": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "resourceUrl": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "subreddit": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  },
+  "$id": "/api/issues/export-schema",
+  "version": 1
+}

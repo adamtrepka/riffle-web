@@ -1,0 +1,57 @@
+---
+import PixelGlyph from '../components/PixelGlyph.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import {
+  formatPublicationDate,
+  getIssueSections,
+  loadIssues,
+} from '../lib/issues'
+
+const issues = loadIssues()
+const { latest, recent } = getIssueSections(issues)
+const title = latest ? `${latest.title} — riffle.` : 'riffle. — curated links'
+const description = latest?.teaser ?? 'A quiet, human-selected stream of worthwhile links.'
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="home-page">
+    <section class="latest-section" aria-labelledby="latest-heading">
+      <div class="section-kicker" id="latest-heading">Latest issue</div>
+      {latest ? (
+        <div class="latest-grid">
+          <div class="latest-copy">
+            <p class="publication-date">{formatPublicationDate(latest.generatedAt)}</p>
+            <h1>{latest.title}</h1>
+            <p class="teaser">{latest.teaser}</p>
+            <a class="text-link prominent-link" href={`/issues/${latest.slug}/`}>
+              Read issue <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <PixelGlyph />
+        </div>
+      ) : (
+        <div class="empty-state">
+          <h1>Nothing published yet.</h1>
+          <p>The next issue will appear here when a human selects it.</p>
+        </div>
+      )}
+    </section>
+
+    {recent.length > 0 && (
+      <section class="recent-section" aria-labelledby="recent-heading">
+        <div class="section-kicker" id="recent-heading">Recent issues</div>
+        <ol class="issue-index">
+          {recent.map((issue) => (
+            <li>
+                <a href={`/issues/${issue.slug}/`}>
+                <span class="issue-index-date">{formatPublicationDate(issue.generatedAt)}</span>
+                <span class="issue-index-title">{issue.title}</span>
+                <span class="issue-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+  </main>
+</BaseLayout>

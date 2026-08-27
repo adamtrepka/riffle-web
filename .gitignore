@@ -1,0 +1,29 @@
+# Dependencies and package-manager cache
+node_modules/
+.pnpm-store/
+
+# Astro build and cache artifacts
+dist/
+.astro/
+
+# Coverage and test output
+coverage/
+test-results/
+playwright-report/
+
+# Local environment files (keep the template)
+.env
+.env.*
+!.env.example
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local working specifications
+.work/

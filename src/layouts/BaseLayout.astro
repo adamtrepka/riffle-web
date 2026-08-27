@@ -1,0 +1,44 @@
+---
+import '@fontsource/space-grotesk/600.css'
+import '@fontsource/space-grotesk/700.css'
+import '@fontsource/ibm-plex-mono/400.css'
+import '@fontsource/ibm-plex-mono/500.css'
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  canonicalPath?: string
+  ogType?: 'website' | 'article'
+}
+
+const { title, description, canonicalPath = '/', ogType = 'website' } = Astro.props
+const canonical = new URL(canonicalPath, Astro.site)
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="riffle. home">riffle.</a>
+      <span class="header-mark" aria-hidden="true">/ curated links</span>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <span>riffle. / independent technology notes</span>
+      <span aria-hidden="true">[ static / human selected ]</span>
+    </footer>
+  </body>
+</html>

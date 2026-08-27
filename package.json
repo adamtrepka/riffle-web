@@ -1,0 +1,30 @@
+{
+  "name": "riffle-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@11.17.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "test": "vitest run",
+    "schema:fetch": "node scripts/schema.mjs fetch",
+    "schema:generate": "node scripts/schema.mjs generate",
+    "schema:check": "node scripts/schema.mjs check"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.2.6",
+    "@fontsource/space-grotesk": "^5.2.6",
+    "astro": "^5.14.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "ajv": "8.20.0",
+    "ajv-draft-04": "1.0.0",
+    "ajv-formats": "3.0.1",
+    "json-schema-to-typescript": "15.0.4",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
