@@ -11,6 +11,7 @@ const issues = loadIssues()
 const { latest, recent } = getIssueSections(issues)
 const title = latest ? `${latest.title} — riffle.` : 'riffle. — curated links'
 const description = latest?.teaser ?? 'A quiet, human-selected stream of worthwhile links.'
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
 ---
 
 <BaseLayout title={title} description={description}>
@@ -23,7 +24,7 @@ const description = latest?.teaser ?? 'A quiet, human-selected stream of worthwh
             <p class="publication-date">{formatPublicationDate(latest.generatedAt)}</p>
             <h1>{latest.title}</h1>
             <p class="teaser">{latest.teaser}</p>
-            <a class="text-link prominent-link" href={`/issues/${latest.slug}/`}>
+            <a class="text-link prominent-link" href={`${baseUrl}issues/${latest.slug}/`}>
               Read issue <span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -43,7 +44,7 @@ const description = latest?.teaser ?? 'A quiet, human-selected stream of worthwh
         <ol class="issue-index">
           {recent.map((issue) => (
             <li>
-                <a href={`/issues/${issue.slug}/`}>
+                <a href={`${baseUrl}issues/${issue.slug}/`}>
                 <span class="issue-index-date">{formatPublicationDate(issue.generatedAt)}</span>
                 <span class="issue-index-title">{issue.title}</span>
                 <span class="issue-arrow" aria-hidden="true">→</span>

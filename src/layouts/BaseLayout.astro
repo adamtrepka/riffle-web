@@ -13,7 +13,8 @@ interface Props {
 }
 
 const { title, description, canonicalPath = '/', ogType = 'website' } = Astro.props
-const canonical = new URL(canonicalPath, Astro.site)
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+const canonical = new URL(`${baseUrl}${canonicalPath.replace(/^\/+/, '')}`, Astro.site)
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const canonical = new URL(canonicalPath, Astro.site)
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="riffle. home">riffle.</a>
+      <a class="brand" href={baseUrl} aria-label="riffle. home">riffle.</a>
       <span class="header-mark" aria-hidden="true">/ curated links</span>
     </header>
     <slot />

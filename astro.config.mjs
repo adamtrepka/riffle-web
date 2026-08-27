@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config'
 
 export default defineConfig({
-  site: 'https://riffle.trepka.dev',
+  site: 'https://adamtrepka.github.io',
+  base: '/riffle-web',
   output: 'static',
   trailingSlash: 'always',
 })
