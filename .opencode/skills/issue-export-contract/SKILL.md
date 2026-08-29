@@ -40,6 +40,16 @@ the generated schema validator to enforce presentation requirements.
 
 Never invent demo publication content to make a build pass.
 
+## Presentation UX
+
+- Treat exported `position` values as authoritative ranking positions. They may
+  be sparse; never renumber them into a new contiguous ranking, and keep them
+  out of the visible row when an unlabeled number would confuse the reader.
+- Keep export order and all export data unchanged. `resourceUrl` is the primary
+  title destination, but render explicit visible `resource ↗` and `discussion ↗`
+  actions whenever those destinations exist. Keep discussion visible when
+  `resourceUrl` is null.
+
 ## Refresh the schema
 
 Require the upstream URL as explicit input; do not hard-code a local address:
