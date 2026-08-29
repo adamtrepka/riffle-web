@@ -7,6 +7,7 @@ import {
   loadIssues,
   type PublishedIssue,
 } from '../../lib/issues'
+import { canonicalizeResourceUrl, getResources } from '../../lib/resources/resources'
 
 export function getStaticPaths() {
   return loadIssues().map((issue) => ({
@@ -17,6 +18,8 @@ export function getStaticPaths() {
 
 const { issue } = Astro.props as { issue: PublishedIssue }
 const description = issue.teaser
+const resources = getResources()
+const pathsByCanonicalUrl = new Map(resources.map((resource) => [resource.canonicalUrl, resource.path]))
 ---
 
 <BaseLayout
@@ -40,41 +43,43 @@ const description = issue.teaser
       <ol class="issue-items">
         {issue.items.map((item) => {
           const primaryUrl = getPrimaryUrl(item)
+          const resourcePath = pathsByCanonicalUrl.get(canonicalizeResourceUrl(primaryUrl))
+          if (!resourcePath) throw new Error(`No redirect route for resource ${primaryUrl}`)
           return (
-              <li>
-                <div class="item-meta">
-                  <span>r/{item.subreddit}</span>
-                </div>
-                <h2>
-                  <a class="item-title" href={primaryUrl} target="_blank" rel="noreferrer">
-                    {item.title} <span aria-hidden="true">↗</span>
+            <li>
+              <div class="item-meta">
+                <span>r/{item.subreddit}</span>
+              </div>
+              <h2>
+                <a class="item-title" href={resourcePath} target="_blank" rel="noreferrer">
+                  {item.title} <span aria-hidden="true">↗</span>
+                </a>
+              </h2>
+              <p class="item-description">{item.description}</p>
+              <div class="item-links">
+                {item.resourceUrl && (
+                  <a
+                    class="item-link"
+                    href={resourcePath}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Resource for ${item.title} (opens in a new tab)`}
+                  >
+                    resource <span aria-hidden="true">↗</span>
                   </a>
-                </h2>
-                <p class="item-description">{item.description}</p>
-                <div class="item-links">
-                  {item.resourceUrl && (
-                    <a
-                      class="item-link"
-                      href={item.resourceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Resource for ${item.title} (opens in a new tab)`}
-                    >
-                      resource <span aria-hidden="true">↗</span>
-                    </a>
-                  )}
-                  {item.redditUrl && (
-                    <a
-                      class="item-link"
-                      href={item.redditUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Discussion for ${item.title} (opens in a new tab)`}
-                    >
-                      discussion <span aria-hidden="true">↗</span>
-                    </a>
-                  )}
-                </div>
+                )}
+                {item.redditUrl && (
+                  <a
+                    class="item-link"
+                    href={item.redditUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Discussion for ${item.title} (opens in a new tab)`}
+                  >
+                    discussion <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </div>
             </li>
           )
         })}

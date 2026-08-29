@@ -1,0 +1,53 @@
+---
+import { getResources, type Resource } from '../../../lib/resources/resources'
+
+export function getStaticPaths() {
+  return getResources().map((resource) => ({
+    params: { source: resource.source, resource: `${resource.slug}-${resource.hash}` },
+    props: { resource },
+  }))
+}
+
+const { resource } = Astro.props as { resource: Resource }
+const serializedTarget = JSON.stringify(resource.targetUrl)
+  .replace(/</g, '\\u003c')
+  .replace(/>/g, '\\u003e')
+  .replace(/&/g, '\\u0026')
+  .replace(/\u2028/g, '\\u2028')
+  .replace(/\u2029/g, '\\u2029')
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>riffle. / opening resource</title>
+    <style>
+      :root { color: #111; background: #f6f4ef; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      * { box-sizing: border-box; }
+      body { display: grid; min-height: 100vh; margin: 0; padding: 2rem; align-content: space-between; }
+      header, main, footer { width: min(100%, 48rem); margin-inline: auto; }
+      header { padding-bottom: 1rem; border-bottom: 1px solid #111; }
+      .brand { color: #111; font: 700 2rem/1 sans-serif; letter-spacing: -.08em; text-decoration: none; }
+      main { padding-block: 10vh; }
+      p { max-width: 42rem; line-height: 1.7; }
+      a { color: #ff3b1f; }
+      footer { padding-top: 1rem; border-top: 1px solid #111; color: #55514c; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+      @media (max-width: 42rem) { body { padding: 1rem; } }
+    </style>
+  </head>
+  <body>
+    <header><a class="brand" href="/" aria-label="riffle. home">riffle.</a></header>
+    <main>
+      <p>Opening the selected resource.</p>
+      <a href={resource.targetUrl}>Continue to {resource.source} <span aria-hidden="true">↗</span></a>
+    </main>
+    <footer>static redirect / {resource.hash}</footer>
+    <script
+      is:inline
+      set:html={`window.addEventListener('load', () => { setTimeout(() => location.replace(${serializedTarget}), 0) })`}
+    ></script>
+  </body>
+</html>
