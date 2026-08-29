@@ -4,6 +4,7 @@ import '@fontsource/space-grotesk/700.css'
 import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
+import SocialMeta from '../components/SocialMeta.astro'
 
 interface Props {
   title: string
@@ -22,13 +23,7 @@ const canonical = new URL(`${baseUrl}${canonicalPath.replace(/^\/+/, '')}`, Astr
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <SocialMeta title={title} description={description} canonical={canonical} ogType={ogType} />
     <title>{title}</title>
   </head>
   <body>

@@ -81,6 +81,8 @@ describe('published resource routes', () => {
         canonicalUrl: 'https://www.yahoo.com/tech/ai/articles/worlds-leading-ai-companies-struggling-152436499.html',
         targetUrl: 'https://www.yahoo.com/tech/ai/articles/worlds-leading-ai-companies-struggling-152436499.html?utm_source=riffle&utm_medium=referral',
         path: '/r/yahoo/ai-wymyka-sie-z-testow-problemem-moga-byc-same-testy-74270724/',
+        title: latestIssue.items[0].title,
+        description: latestIssue.items[0].description,
       }),
       expect.objectContaining({
         canonicalUrl: 'https://www.tomshardware.com/tech-industry/artificial-intelligence/ai-creates-16-new-viruses-that-never-existed-in-nature-after-learning-dnas-pattern-from-9-trillion-nucleotides-experts-warn-such-applications-are-way-ahead-of-necessary-guardrails',

@@ -20,6 +20,7 @@ export interface Resource {
   hash: string
   path: string
   title: string
+  description: string
 }
 
 function transliterate(value: string): string {
@@ -93,7 +94,12 @@ export function resourceTarget(canonicalUrl: string): string {
 
 type HashFunction = (canonicalUrl: string) => string
 
-function createResource(title: string, primaryUrl: string, hashFunction: HashFunction = resourceHash): Resource {
+function createResource(
+  title: string,
+  primaryUrl: string,
+  description = title,
+  hashFunction: HashFunction = resourceHash,
+): Resource {
   const canonicalUrl = canonicalizeResourceUrl(primaryUrl)
   const hash = hashFunction(canonicalUrl)
   const source = getResourceSource(canonicalUrl)
@@ -106,6 +112,7 @@ function createResource(title: string, primaryUrl: string, hashFunction: HashFun
     hash,
     path: `/r/${source}/${slug}-${hash}/`,
     title,
+    description,
   }
 }
 
@@ -115,7 +122,7 @@ export function collectResources(issues: readonly PublishedIssue[], hashFunction
 
   for (const issue of issues) {
     for (const item of issue.items) {
-      const resource = createResource(item.title, getPrimaryUrl(item), hashFunction)
+      const resource = createResource(item.title, getPrimaryUrl(item), item.description, hashFunction)
       const existingUrl = hashes.get(resource.hash)
       if (existingUrl && existingUrl !== resource.canonicalUrl) {
         throw new Error(

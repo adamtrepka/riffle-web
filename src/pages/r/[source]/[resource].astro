@@ -1,5 +1,6 @@
 ---
 import { getResources, type Resource } from '../../../lib/resources/resources'
+import SocialMeta from '../../../components/SocialMeta.astro'
 
 export function getStaticPaths() {
   return getResources().map((resource) => ({
@@ -15,6 +16,7 @@ const serializedTarget = JSON.stringify(resource.targetUrl)
   .replace(/&/g, '\\u0026')
   .replace(/\u2028/g, '\\u2028')
   .replace(/\u2029/g, '\\u2029')
+const canonical = new URL(resource.path, Astro.site)
 ---
 
 <!doctype html>
@@ -23,7 +25,8 @@ const serializedTarget = JSON.stringify(resource.targetUrl)
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>riffle. / opening resource</title>
+    <SocialMeta title={resource.title} description={resource.description} canonical={canonical} />
+    <title>{resource.title}</title>
     <style>
       :root { color: #111; background: #f6f4ef; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
       * { box-sizing: border-box; }
