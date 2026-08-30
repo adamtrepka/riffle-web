@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+---
+
+<BaseLayout title="404 — riffle." description="page not found" canonicalPath={null} noindex>
+  <main class="home-page">
+    <section class="empty-state" aria-labelledby="not-found-heading">
+      <h1 id="not-found-heading">404</h1>
+      <p>page not found</p>
+      <a class="text-link prominent-link" href={baseUrl}>back to home</a>
+    </section>
+  </main>
+</BaseLayout>

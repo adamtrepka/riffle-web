@@ -2,23 +2,25 @@
 interface Props {
   title: string
   description: string
-  canonical: URL
+  canonical?: URL
   ogType?: 'website' | 'article'
+  noindex?: boolean
 }
 
-const { title, description, canonical, ogType = 'website' } = Astro.props
+const { title, description, canonical, ogType = 'website', noindex = false } = Astro.props
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
 const image = new URL(`${baseUrl}riffle-social-preview.png`, Astro.site)
 const imageAlt = 'riffle. — curated links'
 ---
 
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+{canonical && <link rel="canonical" href={canonical} />}
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content="riffle." />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={canonical} />
+{canonical && <meta property="og:url" content={canonical} />}
 <meta property="og:image" content={image} />
 <meta property="og:image:alt" content={imageAlt} />
 <meta property="og:image:width" content="1200" />
@@ -27,6 +29,6 @@ const imageAlt = 'riffle. — curated links'
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:url" content={canonical} />
+{canonical && <meta name="twitter:url" content={canonical} />}
 <meta name="twitter:image" content={image} />
 <meta name="twitter:image:alt" content={imageAlt} />
